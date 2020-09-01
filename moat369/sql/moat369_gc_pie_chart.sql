@@ -6,7 +6,7 @@ DEF one_spool_filename = '&&spool_filename.'
 @@moat369_0j_html_topic_intro.sql &&one_spool_filename._pie_chart.html pie
 
 SPO &&one_spool_fullpath_filename. APP
-PRO <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+PRO <script type="text/javascript" src="&&moat369_sw_gchart_path."></script>
 
 -- chart header
 PRO    <script type="text/javascript" id="gchart_script">
@@ -25,8 +25,7 @@ DECLARE
   cur SYS_REFCURSOR;
   l_slice VARCHAR2(32767);
   l_value NUMBER;
-  l_percent NUMBER;
-  l_text VARCHAR2(32767);
+  l_display_value VARCHAR2(32767);
   l_sql_text VARCHAR2(32767);
 BEGIN
   DBMS_OUTPUT.PUT_LINE('[''Slice'', ''Value'']');
@@ -34,9 +33,9 @@ BEGIN
   l_sql_text := DBMS_LOB.SUBSTR(:sql_text); -- needed for 10g
   OPEN cur FOR l_sql_text; -- needed for 10g
   LOOP
-    FETCH cur INTO l_slice, l_value, l_percent, l_text;
+    FETCH cur INTO l_slice, l_value, l_display_value;
     EXIT WHEN cur%NOTFOUND;
-    DBMS_OUTPUT.PUT_LINE(',['''||l_slice||''', {v: '||l_value||', f: '''||l_percent||'%''}]');
+    DBMS_OUTPUT.PUT_LINE(',['''||l_slice||''', {v: '||l_value||', f: '''||l_display_value||'''}]');
   END LOOP;
   :row_count := cur%ROWCOUNT;
   CLOSE cur;
@@ -63,11 +62,11 @@ PRO          titleTextStyle: {fontSize: 16, bold: false},
 PRO          legend: {position: 'right', textStyle: {fontSize: 12}},
 PRO          tooltip: {textStyle: {fontSize: 14}},
 PRO          sliceVisibilityThreshold: 1/10000,
-PRO          pieSliceText: 'value',
+PRO          pieSliceText: 'percentage',
 PRO          tooltip: {
 PRO                    showColorCode: true,
-PRO                    text: 'value',
-PRO                    trigger: 'selection'
+PRO                    text: 'both',
+PRO                    trigger: 'focus'
 PRO                  }
 PRO          };
 PRO
